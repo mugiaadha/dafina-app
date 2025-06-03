@@ -1,0 +1,82 @@
+<footer id="contact">
+  <div class="container py-5 mb-5">
+    <div class="row text-left text-md-left">
+      <div class="col-md-3 mb-4">
+        <img
+          src="./assets/images/logo.webp"
+          alt="Logo Dafina"
+          width="127"
+          height="47"
+          class="mb-3"
+        />
+        <p>
+          Kami menyediakan perawatan kecantikan spa dan wajah dengan pelayanan
+          terbaik dari kami dan kualitas terbaik. Dan jangan lupa diskon
+        </p>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5 class="text-pink">Tentang</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-dark">Perawatan Kami</a></li>
+          <li><a href="#" class="text-dark">Pelanggan Kami</a></li>
+          <li><a href="#" class="text-dark">Daftar Harga</a></li>
+          <li><a href="#" class="text-dark">Spa</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5 class="text-pink">Dukungan</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-dark">Tentang Kami</a></li>
+          <li><a routerLink="/faq" class="text-dark">FAQ</a></li>
+          <li><a href="#" class="text-dark">Bantuan</a></li>
+          <li><a href="#" class="text-dark">Kebijakan Privasi</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 mb-4">
+        <h5 class="text-pink">Hubungi Kami</h5>
+        <p>
+          Bukit Cimanggu City Blok V6 No. 33, Mekar Wangi, Tanah Sareal, Kota
+          Bogor (<a target="_blank" href="https://g.co/kgs/dGErCKb"
+            >Google Maps</a
+          >)
+        </p>
+        <p>
+          Email :
+          <a href="mailto:salon@dafina.my.id">{{ "salon@dafina.my.id" }}</a>
+        </p>
+        <p>
+          Whatsapp :
+          <a href="https://api.whatsapp.com/send/?phone=6289635938352"
+            >+62 896-3593-8352</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./assets/js/script.js"></script>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-HYTCZ6M2CB"
+></script>
+<script>
+  window.onload = function () {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-HYTCZ6M2CB");
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+          behavior: "smooth",
+        });
+      });
+    });
+  };
+</script>

@@ -1,0 +1,121 @@
+<main id="main" class="my-5">
+  <section id="blog" class="blog">
+    <div class="container" data-aos="fade-up">
+      <div class="row">
+        <div class="col-lg-8 entries">
+          <article
+            *ngFor="let post of [1, 2, 3]"
+            class="entry card border shadow-sm mb-4 position-relative"
+          >
+            <a
+              href="blog/{{ post }}"
+              class="stretched-link text-decoration-none text-dark"
+            >
+              <div class="entry-img">
+                <img
+                  src="assets/images/service{{ post }}.webp"
+                  alt="Tips Perawatan Rambut"
+                  class="img-fluid card-img-top"
+                />
+              </div>
+              <div class="card-body">
+                <h2 class="entry-title h5">
+                  Tips Perawatan Rambut Sehat di Rumah
+                </h2>
+                <div class="entry-meta mb-2">
+                  <ul
+                    class="list-unstyled d-flex flex-wrap gap-3 small text-muted mb-0"
+                  >
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-person me-1"></i>
+                      Dafina Team
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-clock me-1"></i>
+                      <time datetime="2025-06-01">Jun 1, 2025</time>
+                    </li>
+                    <li class="d-flex align-items-center">
+                      <i class="bi bi-chat-dots me-1"></i>
+                      5 Komentar
+                    </li>
+                  </ul>
+                </div>
+                <p class="mb-0">
+                  Pelajari cara merawat rambut agar tetap sehat dan berkilau
+                  dengan bahan-bahan alami yang mudah ditemukan di rumah.
+                </p>
+              </div>
+            </a>
+          </article>
+
+          <div class="blog-pagination">
+            <ul class="justify-content-center">
+              <li><a href="#">1</a></li>
+              <li class="active"><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="sidebar">
+            <h3 class="sidebar-title">Cari Artikel</h3>
+            <div class="sidebar-item search-form">
+              <form action="">
+                <input type="text" placeholder="Cari..." />
+                <button type="submit"><i class="bi bi-search"></i></button>
+              </form>
+            </div>
+
+            <h3 class="sidebar-title">Kategori</h3>
+            <div class="sidebar-item categories">
+              <ul>
+                <li>
+                  <a href="#">Perawatan Rambut <span>(10)</span></a>
+                </li>
+                <li>
+                  <a href="#">Gaya Rambut <span>(7)</span></a>
+                </li>
+                <li>
+                  <a href="#">Warna Rambut <span>(5)</span></a>
+                </li>
+                <li>
+                  <a href="#">Tips & Trik <span>(3)</span></a>
+                </li>
+              </ul>
+            </div>
+
+            <h3 class="sidebar-title">Artikel Terbaru</h3>
+            <div class="sidebar-item recent-posts">
+              <div class="post-item clearfix">
+                <img src="assets/images/service1.webp" />
+                <h4>
+                  <a href="blog-single.html">Manfaat Masker Rambut Alami</a>
+                </h4>
+                <time datetime="2025-05-28">May 28, 2025</time>
+              </div>
+
+              <div class="post-item clearfix">
+                <img src="assets/images/service2.webp" />
+                <h4>
+                  <a href="blog-single.html">Gaya Rambut Pendek yang Stylish</a>
+                </h4>
+                <time datetime="2025-05-18">May 18, 2025</time>
+              </div>
+
+              <div class="post-item clearfix">
+                <img src="assets/images/service3.webp" />
+                <h4>
+                  <a href="blog-single.html"
+                    >Tips Memilih Produk Perawatan Rambut</a
+                  >
+                </h4>
+                <time datetime="2025-05-10">May 10, 2025</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

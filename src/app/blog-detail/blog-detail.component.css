@@ -1,0 +1,351 @@
+/* ======= Reset & Base ======= */
+body {
+  font-family: "Poppins", sans-serif;
+  color: #444444;
+  line-height: 1.8;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #4154f1;
+  text-decoration: none;
+}
+a:hover {
+  color: #364fc7;
+  text-decoration: underline;
+}
+
+.container {
+  width: 90%;
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ======= Breadcrumbs ======= */
+.breadcrumbs {
+  padding: 15px 0;
+  background: #f7f7f7;
+  font-size: 14px;
+}
+.breadcrumbs .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.breadcrumbs h2 {
+  margin: 0;
+  font-weight: 600;
+}
+.breadcrumbs ol {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+.breadcrumbs ol li + li::before {
+  content: "/";
+  padding: 0 8px;
+  color: #999;
+}
+.breadcrumbs ol li a {
+  color: #4154f1;
+}
+.breadcrumbs ol li a:hover {
+  color: #364fc7;
+}
+
+/* ======= Navigation Previous/Next ======= */
+#breadcrumbs.mt-0 {
+  background-color: #373534;
+  padding: 12px 0;
+  color: white;
+  font-size: 14px;
+}
+#breadcrumbs.mt-0 ol {
+  margin: 0;
+  padding: 0;
+}
+#breadcrumbs.mt-0 ol li a {
+  color: white;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+#breadcrumbs.mt-0 ol li a i {
+  font-size: 18px;
+  margin-right: 6px;
+}
+#breadcrumbs.mt-0 ol:last-child li a i {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+/* ======= Blog Detail Section ======= */
+.blog-detail .entries {
+  margin-bottom: 3rem;
+}
+
+.entry {
+  margin-bottom: 2rem;
+}
+.entry-img img {
+  border-radius: 6px;
+}
+.entry-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.7rem;
+}
+.entry-title a {
+  color: #111;
+}
+.entry-meta ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+.entry-meta ul li {
+  display: flex;
+  align-items: center;
+}
+.entry-meta ul li i {
+  margin-right: 6px;
+  font-size: 16px;
+  color: #4154f1;
+}
+
+.entry-content p {
+  margin-bottom: 1rem;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+.entry-footer {
+  margin-top: 1.5rem;
+  font-size: 14px;
+}
+.entry-footer i {
+  margin-right: 6px;
+  color: #4154f1;
+}
+.entry-footer ul.cats,
+.entry-footer ul.tags {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+  gap: 10px;
+}
+.entry-footer ul.cats li a,
+.entry-footer ul.tags li a {
+  padding: 3px 10px;
+  background: #e0e7ff;
+  border-radius: 20px;
+  color: #4154f1;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ======= Author Bio ======= */
+.blog-author {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+.blog-author img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.blog-author h4 {
+  margin-bottom: 0.3rem;
+}
+.blog-author .social-links a {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #4154f1;
+  transition: color 0.3s;
+}
+.blog-author .social-links a:hover {
+  color: #364fc7;
+}
+.blog-author p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 0.4rem;
+}
+
+/* ======= Comments Section ======= */
+.blog-comments {
+  margin-top: 3rem;
+}
+.comments-count {
+  font-size: 22px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.comment {
+  margin-bottom: 1.5rem;
+}
+.comment .comment-img img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.comment h5 {
+  margin: 0 0 0.2rem 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.comment h5 a.reply {
+  font-weight: 500;
+  font-size: 14px;
+  float: right;
+  color: #4154f1;
+  text-decoration: none;
+}
+.comment h5 a.reply:hover {
+  text-decoration: underline;
+}
+.comment time {
+  font-size: 12px;
+  color: #999;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.comment p {
+  font-size: 14px;
+  color: #444;
+}
+
+/* Comment Replies */
+.comment-reply {
+  margin-left: 3rem;
+}
+
+/* ======= Reply Form ======= */
+.reply-form h4 {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 1rem;
+}
+.reply-form p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 1rem;
+}
+.reply-form .form-group {
+  margin-bottom: 1rem;
+}
+.reply-form input,
+.reply-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #444;
+  transition: border-color 0.3s;
+}
+.reply-form input:focus,
+.reply-form textarea:focus {
+  border-color: #4154f1;
+  outline: none;
+}
+.reply-form button {
+  background-color: #4154f1;
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+.reply-form button:hover {
+  background-color: #364fc7;
+}
+
+/* ======= Sidebar ======= */
+.sidebar {
+  padding-left: 1.5rem;
+  border-left: 1px solid #eee;
+}
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #111;
+}
+.sidebar-item {
+  margin-bottom: 2rem;
+}
+.sidebar-item.recent-posts .post-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+.sidebar-item.recent-posts .post-item img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.sidebar-item.recent-posts .post-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+.sidebar-item.recent-posts .post-item h4 a {
+  color: #4154f1;
+}
+.sidebar-item.recent-posts .post-item time {
+  font-size: 12px;
+  color: #888;
+}
+
+.sidebar-item.categories ul,
+.sidebar-item.tags ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar-item.categories ul li,
+.sidebar-item.tags ul li {
+  margin-bottom: 8px;
+}
+.sidebar-item.categories ul li a,
+.sidebar-item.tags ul li a {
+  color: #555;
+  font-size: 14px;
+}
+.sidebar-item.categories ul li a span {
+  color: #999;
+  font-size: 12px;
+  margin-left: 6px;
+}
+.sidebar-item.categories ul li a:hover,
+.sidebar-item.tags ul li a:hover {
+  color: #4154f1;
+}
+
+/* ======= Responsive ======= */
+@media (max-width: 991px) {
+  .blog-detail .entries,
+  .sidebar {
+    padding: 0 15px;
+  }
+  .sidebar {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 3rem;
+  }
+  .row {
+    display: block;
+  }
+}

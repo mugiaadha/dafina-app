@@ -1,0 +1,26 @@
+<main class="faq-container">
+  <h1>Frequently Asked Questions</h1>
+
+  <section *ngFor="let faq of faqs; let i = index" class="faq-item">
+    <button
+      class="faq-question"
+      [attr.aria-expanded]="faq.expanded"
+      [attr.aria-controls]="'faq' + i"
+      (click)="toggle(i)"
+      [id]="'faq' + i + '-button'"
+    >
+      {{ faq.question }}
+      <span class="arrow">{{ faq.expanded ? "−" : "+" }}</span>
+    </button>
+
+    <div
+      *ngIf="faq.expanded"
+      class="faq-answer"
+      role="region"
+      [attr.aria-labelledby]="'faq' + i + '-button'"
+      [id]="'faq' + i"
+    >
+      <p>{{ faq.answer }}</p>
+    </div>
+  </section>
+</main>

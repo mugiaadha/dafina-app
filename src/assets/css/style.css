@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
@@ -19,30 +18,30 @@ nav h1 {
 }
 
 .btn-pink {
-  background-color: #d12fa5 !important;
-  color: white !important;
+  background-color: #D12FA5;
+  color: white;
 }
 
 .btn-pink:hover {
-  background-color: #d16eb2 !important;
+  background-color: #d16eb2;
 }
 
 .btn-outline-pink {
-  border: 2px solid #d12fa5 !important;
-  color: #d12fa5 !important;
+  border: 2px solid #D12FA5;
+  color: #D12FA5;
 }
 
 .btn-outline-pink:hover {
-  background-color: #d12fa5 !important;
-  color: white !important;
+  background-color: #D12FA5;
+  color: white;
 }
 
 .text-pink {
-  color: #d12fa5 !important;
+  color: #D12FA5;
 }
 
 .bg-section {
-  background: url("assets/images/background.webp") no-repeat center/cover;
+  background: url("../images/background.webp") no-repeat center/cover;
   min-height: 750px;
 }
 
@@ -66,11 +65,11 @@ nav h1 {
 }
 
 .navbar-nav .nav-link:hover {
-  color: #d12fa5 !important;
+  color: #D12FA5 !important;
 }
 
 .border-pink {
-  border: 1px solid #d12fa5 !important;
+  border: 1px solid #D12FA5;
 }
 
 .card-title {
