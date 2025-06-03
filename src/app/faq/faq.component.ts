@@ -12,9 +12,7 @@ interface FaqItem {
   styleUrls: ['./faq.component.css'],
 })
 export class FaqComponent implements OnInit {
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
-  }
+  ngOnInit(): void {}
 
   faqs: FaqItem[] = [
     {
