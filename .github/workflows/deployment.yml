@@ -24,13 +24,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # atau versi node yang sesuai
+          node-version: '14.15.0'  # atau versi node yang sesuai
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --prod
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
