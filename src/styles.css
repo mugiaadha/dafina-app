@@ -43,7 +43,7 @@ nav h1 {
 
 .bg-section {
   background: url("assets/images/background.webp") no-repeat center/cover;
-  min-height: 750px;
+  height: 750px;
 }
 
 .bg-light-pink,
