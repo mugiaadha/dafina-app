@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Build Angular app
-        run: npm run build -- --base-href /dafina-app/
+        run: npm run build
 
       - name: Upload to FTP server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
