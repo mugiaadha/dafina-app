@@ -375,8 +375,8 @@
     </div>
 
     <p class="mt-5 text-center fst-italic text-muted">
-      🌸 <strong>Catatan:</strong> Harga dapat berubah sewaktu-waktu dan berlaku untuk layanan di salon / area
-      BCC.<br />
+      🌸 <strong>Catatan:</strong> Harga dapat berubah sewaktu-waktu dan berlaku
+      untuk layanan di salon / area BCC.<br />
       Biaya tambahan akan dikenakan untuk layanan <em>home service</em>.
     </p>
   </div>
@@ -394,49 +394,26 @@
     >
       <div class="carousel-inner">
         <!-- Testimoni 1 -->
-        <div class="carousel-item active">
+        <div
+          class="carousel-item"
+          [ngClass]="{ active: isFirst }"
+          *ngFor="let testimonial of testimonials; let isFirst = first"
+        >
           <div
             class="card shadow-sm p-4 mx-auto"
             style="max-width: 600px; border-radius: 1rem"
           >
             <img
-              src="./assets/images/service1.webp"
-              class="rounded-circle mx-auto mb-3"
+              src="./assets/images/user.webp"
+              class="rounded-circle mx-auto mb-3 border-pink p-2"
               alt="Wini Bubu"
               width="90"
               height="90"
             />
-            <p class="fst-italic text-muted mb-3">
-              “Langganan smoothing di sini, hasilnya bikin terharu km sebagus
-              itu dan harganya maa shaa allah bersahabat bgt...”
-            </p>
-            <h6 class="mb-0 text-pink">Wini Bubu</h6>
+            <p class="fst-italic text-muted mb-3">“{{ testimonial.text }}”</p>
+            <h6 class="mb-0 text-pink">{{ testimonial.name }}</h6>
           </div>
         </div>
-
-        <!-- Testimoni 2 -->
-        <div class="carousel-item">
-          <div
-            class="card shadow-sm p-4 mx-auto"
-            style="max-width: 600px; border-radius: 1rem"
-          >
-            <img
-              src="./assets/images/service1.webp"
-              class="rounded-circle mx-auto mb-3"
-              alt="Reni"
-              width="90"
-              height="90"
-            />
-            <p class="fst-italic text-muted mb-3">
-              “Alhamdulillah bisa treatment di Dafina Salon. Sangat puas, bikin
-              rileks dan pelayanannya oke banget 👍”
-            </p>
-            <h6 class="mb-0 text-pink">Reni Nuraeni</h6>
-          </div>
-        </div>
-
-        <!-- Tambahkan testimoni lain dengan struktur serupa -->
-        <!-- Testimoni 3, 4, dst... -->
       </div>
 
       <!-- Carousel Control -->
