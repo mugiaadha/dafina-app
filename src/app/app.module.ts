@@ -9,6 +9,7 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { FaqComponent } from './faq/faq.component';
+import { LinktreeComponent } from './linktree/linktree.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FaqComponent } from './faq/faq.component';
     HeaderComponent,
     FooterComponent,
     FaqComponent,
+    LinktreeComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
