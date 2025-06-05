@@ -13,8 +13,9 @@ export class BlogDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.blog = {
-      title: 'Judul Blog Dinamis',
-      description: 'Ini adalah deskripsi blog yang dinamis',
+      title:
+        'Dafina Salon Bogor - Salon terbaik di Bogor dan Salon termurah di Bogor',
+      description: 'salon bukit cimanggu, salon wanita bogor',
     };
 
     this.titleService.setTitle(this.blog.title);
