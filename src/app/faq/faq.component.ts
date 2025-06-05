@@ -22,6 +22,12 @@ export class FaqComponent implements OnInit {
       expanded: false,
     },
     {
+      question: 'Apakah Dafina Salon menyediakan layanan home service?',
+      answer:
+        'Ya, kami menyediakan layanan home service untuk area Bukit Cimanggu City Bogor. Layanan ini mencakup potong rambut, perawatan wajah, dan make up. Silakan hubungi kami untuk info jadwal dan biaya tambahan.',
+      expanded: false,
+    },
+    {
       question: 'Apakah Dafina Salon menerima booking online?',
       answer:
         'Ya, kamu bisa melakukan booking online melalui whatsapp kami untuk kenyamananmu.',
