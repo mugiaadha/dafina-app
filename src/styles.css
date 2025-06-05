@@ -114,6 +114,10 @@ footer h5 {
   font-weight: bold;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 @media (max-width: 767px) {
   footer .col-md-3 {
     text-align: center;
