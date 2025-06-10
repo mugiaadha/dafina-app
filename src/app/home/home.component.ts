@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
 
   subscribe() {
     this.userService.createUser({ email: this.emailOrPhone }).subscribe({
-      next: (response) => {
+      next: () => {
         Swal.fire({
           icon: 'success',
           title: 'Berhasil!',
