@@ -60,19 +60,8 @@
   </div>
 </footer>
 
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=G-HYTCZ6M2CB"
-></script>
 <script>
   window.onload = function () {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", "G-HYTCZ6M2CB");
-
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", function (e) {
         e.preventDefault();
