@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  emailOrPhone: any;
+  constructor(private userService: UserService) {}
 
   testimonials = [
     {
@@ -80,4 +83,23 @@ export class HomeComponent implements OnInit {
   ];
 
   ngOnInit(): void {}
+
+  subscribe() {
+    this.userService.createUser({ email: this.emailOrPhone }).subscribe({
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: 'Terima kasih telah berlangganan!',
+        });
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Gagal Berlangganan',
+          text: 'Terjadi kesalahan saat proses berlangganan. Silakan coba lagi nanti, mungkin besok bisa :)',
+        });
+      },
+    });
+  }
 }

@@ -468,14 +468,32 @@
       Nikmati semua perawatan dan Anda akan mendapatkan diskon hingga 50%.<br />
       Buruan ladies sebelum semua perawatan habis!
     </p>
-    <div class="d-flex justify-content-center">
-      <input
-        type="text"
-        class="form-control me-2"
-        placeholder="Masukkan email atau nomor telepon Anda"
-        style="max-width: 300px"
-      />
-      <button class="btn btn-pink">Berlangganan</button>
-    </div>
+    <form #form="ngForm" (ngSubmit)="subscribe()" novalidate>
+      <div class="d-flex justify-content-center">
+        <input
+          type="email"
+          name="emailOrPhone"
+          class="form-control me-2"
+          [(ngModel)]="emailOrPhone"
+          placeholder="Masukkan email"
+          required
+          email
+          #emailInput="ngModel"
+          style="max-width: 300px"
+        />
+        <button class="btn btn-pink" type="submit" [disabled]="form.invalid">
+          Berlangganan
+        </button>
+      </div>
+
+      <!-- Tampilkan pesan error -->
+      <div
+        class="text-danger mt-1 text-center"
+        *ngIf="emailInput.invalid && emailInput.touched"
+      >
+        <div *ngIf="emailInput.errors?.required">Email wajib diisi</div>
+        <div *ngIf="emailInput.errors?.email">Format email tidak valid</div>
+      </div>
+    </form>
   </div>
 </section>
