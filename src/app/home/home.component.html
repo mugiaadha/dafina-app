@@ -462,10 +462,10 @@
     <h2 class="text-center text-pink mb-3">PROMO DISKON</h2>
     <h1 class="my-5">
       Berlangganan dan dapatkan diskon hingga
-      <span class="fw-bold">50%</span>
+      <span class="fw-bold">10%</span>
     </h1>
     <p class="my-5">
-      Nikmati semua perawatan dan Anda akan mendapatkan diskon hingga 50%.<br />
+      Nikmati semua perawatan dan Anda akan mendapatkan diskon hingga 10%.<br />
       Buruan ladies sebelum semua perawatan habis!
     </p>
     <form #form="ngForm" (ngSubmit)="subscribe()" novalidate>
@@ -481,7 +481,12 @@
           #emailInput="ngModel"
           style="max-width: 300px"
         />
-        <button id="btn-subscribe" class="btn btn-pink" type="submit" [disabled]="form.invalid">
+        <button
+          id="btn-subscribe"
+          class="btn btn-pink"
+          type="submit"
+          [disabled]="form.invalid"
+        >
           Berlangganan
         </button>
       </div>

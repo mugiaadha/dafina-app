@@ -42,7 +42,7 @@ export class FaqComponent implements OnInit {
     {
       question: 'Apakah ada promo khusus untuk pelanggan baru?',
       answer:
-        'Ya, kami memberikan diskon 20% untuk pelanggan baru yang melakukan booking pertama kali.',
+        'Ya, kami memberikan diskon 10% untuk pelanggan baru yang melakukan booking pertama kali.',
       expanded: false,
     },
     {
