@@ -472,37 +472,15 @@
       Nikmati semua perawatan dan Anda akan mendapatkan diskon hingga 10%.<br />
       Buruan ladies sebelum semua perawatan habis!
     </p>
-    <form #form="ngForm" (ngSubmit)="subscribe()" novalidate>
-      <div class="d-flex justify-content-center">
-        <input
-          type="email"
-          name="emailOrPhone"
-          class="form-control me-2"
-          [(ngModel)]="emailOrPhone"
-          placeholder="Masukkan email"
-          required
-          email
-          #emailInput="ngModel"
-          style="max-width: 300px"
-        />
-        <button
-          id="btn-subscribe"
-          class="btn btn-pink"
-          type="submit"
-          [disabled]="form.invalid"
-        >
-          Berlangganan
-        </button>
-      </div>
-
-      <!-- Tampilkan pesan error -->
-      <div
-        class="text-danger mt-1 text-center"
-        *ngIf="emailInput.invalid && emailInput.touched"
+    <div class="d-flex justify-content-center">
+      <a
+        href="https://whatsapp.com/channel/0029VbB4vAt6GcG98oyU861e"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-pink"
       >
-        <div *ngIf="emailInput.errors?.required">Email wajib diisi</div>
-        <div *ngIf="emailInput.errors?.email">Format email tidak valid</div>
-      </div>
-    </form>
+        Berlangganan
+      </a>
+    </div>
   </div>
 </section>
