@@ -1,31 +1,11 @@
 name: Build & Deploy workflow
 on:
-  workflow_dispatch: # Menambahkan tombol trigger manual di GitHub UI
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
-  generate-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - name: Ambil list branches dari API dan generate matrix
-        id: set-matrix
-        run: |
-          echo "Fetching branches…"
-          jq --version
-          json=$(curl -sS --max-time 10 https://emr.clenicapp.com/api/get-branches) || true
-          if [ -z "${json}" ] || ! echo "${json}" | jq -e . >/dev/null 2>&1; then
-            echo "Warning: failed to fetch or parse branches API response; using empty matrix."
-            matrix='[]'
-          else
-            matrix=$(echo "${json}" | jq -c '.data' 2>/dev/null) || matrix='[]'
-          fi
-          echo "Matrix: $matrix"
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -54,27 +34,37 @@ jobs:
           NODE_OPTIONS: --openssl-legacy-provider
         run: npm run build -- --configuration production
 
+      - name: Compress build files to tar.gz
+        run: |
+          tar -czf bundle.tar.gz -C ./dist/puskesmas-app .
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-build
-          path: ./dist/puskesmas-app/
+          name: app-bundle
+          path: bundle.tar.gz
           retention-days: 1
 
   deploy:
-    needs: [build, generate-matrix]
+    needs: build
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 20
-      matrix:
-        folder: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-
     steps:
-      - name: Download build artifacts
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-build
-          path: ./dist/puskesmas-app/
+          name: app-bundle
+
+      - name: Fetch list of branches
+        id: get-branches
+        run: |
+          json=$(curl -sS --max-time 10 https://emr.clenicapp.com/api/get-branches) || true
+          if [ -z "${json}" ] || ! echo "${json}" | jq -e . >/dev/null 2>&1; then
+            echo "Error: Gagal mengambil data branches dari API."
+            exit 1
+          fi
+          # Ubah format JSON array ke format baris string dipisah spasi
+          branches=$(echo "${json}" | jq -r '.data | join(" ")')
+          echo "branches=$branches" >> $GITHUB_OUTPUT
 
       - name: Setup SSH Key
         env:
@@ -82,25 +72,42 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
         run: |
-          mkdir -p ~/.ssh/
+          mkdir -p ~/.ssh
           echo "$SSH_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      - name: Deploy to ${{ matrix.folder }} via Rsync
+      - name: Upload Bundle & Distribute on Server
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PORT: "22"
-          TARGET_DIR: "/home/clenicapp.com/apps/${{ matrix.folder }}.clenicapp.com/v1/"
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+          BRANCH_LIST: ${{ steps.get-branches.outputs.branches }}
         run: |
-          rsync -avz --no-times \
-            --rsync-path="mkdir -p $TARGET_DIR && rsync" \
-            -e "ssh -p $SSH_PORT -i ~/.ssh/id_rsa \
-                -o StrictHostKeyChecking=accept-new \
-                -o ConnectTimeout=120 \
-                -o ConnectionAttempts=5 \
-                -o ServerAliveInterval=15 \
-                -o ServerAliveCountMax=6" \
-            ./dist/puskesmas-app/ \
-            "$SSH_USER@$SSH_HOST:$TARGET_DIR"
+          # 1. Upload 1 file arsip ke server
+          scp -P "$SSH_PORT" -i ~/.ssh/id_rsa bundle.tar.gz "$SSH_USER@$SSH_HOST:/tmp/bundle.tar.gz"
+
+          # 2. Eksekusi ekstraksi dan distribusi lokal di VPS
+          ssh -p "$SSH_PORT" -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" bash -s << EOF
+            set -e
+
+            echo "Mempersiapkan direktori rilis sementara..."
+            rm -rf /tmp/app_release
+            mkdir -p /tmp/app_release
+            tar -xzf /tmp/bundle.tar.gz -C /tmp/app_release
+
+            BRANCHES="$BRANCH_LIST"
+
+            echo "Mendistribusikan file ke seluruh subdomain..."
+            for folder in \$BRANCHES; do
+              TARGET_DIR="/home/clenicapp.com/apps/\${folder}.clenicapp.com/v1"
+              mkdir -p "\$TARGET_DIR"
+              # Sync lokal disk-to-disk (sangat cepat & hemat resource)
+              rsync -a --delete /tmp/app_release/ "\$TARGET_DIR/"
+              echo "✓ Berhasil deploy: \${folder}.clenicapp.com"
+            done
+
+            echo "Membersihkan file sementara..."
+            rm -rf /tmp/bundle.tar.gz /tmp/app_release
+            echo "Deployment selesai untuk seluruh cabang!"
+          EOF
