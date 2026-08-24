@@ -1,5 +1,6 @@
 name: Build & Deploy workflow
 on:
+  workflow_dispatch: # Menambahkan tombol trigger manual di GitHub UI
   push:
     branches:
       - main
