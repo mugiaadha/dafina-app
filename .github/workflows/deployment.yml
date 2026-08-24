@@ -1,36 +1,103 @@
-name: Build and Deploy Angular to FTP Server
-
+name: Build & Deploy workflow
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
+    branches:
+      - main
 
 jobs:
-  build-and-upload:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Ambil list branches dari API & generate matrix
+        id: set-matrix
+        run: |
+          echo "Fetching branches…"
+          jq --version
+          json=$(curl -sS --max-time 10 https://emr.clenicapp.com/api/get-branches) || true
+          if [ -z "${json}" ] || ! echo "${json}" | jq -e . >/dev/null 2>&1; then
+            echo "Warning: failed to fetch or parse branches API response; using empty matrix."
+            matrix='[]'
+          else
+            matrix=$(echo "${json}" | jq -c '.data' 2>/dev/null) || matrix='[]'
+          fi
+          echo "Matrix: $matrix"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "14.15.0" # sesuaikan
+          node-version: "26"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Cache Angular
+        uses: actions/cache@v4
+        with:
+          path: .angular/cache
+          key: angular-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            angular-${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps --no-audit --no-fund
 
-      - name: Build Angular app
-        run: npm run build
+      - name: Build app
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        run: npm run build -- --configuration production
 
-      - name: Upload to FTP server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/dafina-app/
-          server-dir: ./
+          name: app-build
+          path: ./dist/clenicappdemo/
+          retention-days: 1
+
+  deploy:
+    needs: [build, generate-matrix]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 20
+      matrix:
+        folder: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-build
+          path: ./dist/clenicappdemo/
+
+      - name: Setup SSH Key
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Rsync Delta Deploy to ${{ matrix.folder }} via SSH
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+          TARGET_DIR: "/home/clenicapp.com/apps/${{ matrix.folder }}.clenicapp.com/v1/"
+        run: |
+          # Buat direktori remote jika belum ada
+          ssh -p "$SSH_PORT" -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "mkdir -p $TARGET_DIR"
+
+          # Sync file menggunakan rsync (delta transfer bawaan)
+          rsync -avz --no-times \
+            -e "ssh -p $SSH_PORT -i ~/.ssh/id_rsa" \
+            ./dist/clenicappdemo/ \
+            "$SSH_USER@$SSH_HOST:$TARGET_DIR"
