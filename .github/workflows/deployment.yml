@@ -64,7 +64,7 @@ jobs:
     needs: [build, generate-matrix]
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
+      max-parallel: 6
       matrix:
         folder: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
 
