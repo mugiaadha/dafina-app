@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-build
-          path: ./dist/clenicappdemo/
+          path: ./dist/puskesmas-app/
           retention-days: 1
 
   deploy:
@@ -99,5 +99,5 @@ jobs:
           # Sync file menggunakan rsync (delta transfer bawaan)
           rsync -avz --no-times \
             -e "ssh -p $SSH_PORT -i ~/.ssh/id_rsa" \
-            ./dist/clenicappdemo/ \
+            ./dist/puskesmas-app/ \
             "$SSH_USER@$SSH_HOST:$TARGET_DIR"
