@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,16 +15,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "26"
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Cache Angular
-        uses: actions/cache@v4
-        with:
-          path: .angular/cache
-          key: angular-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            angular-${{ runner.os }}-
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps --no-audit --no-fund
@@ -38,22 +28,6 @@ jobs:
         run: |
           tar -czf bundle.tar.gz -C ./dist/puskesmas-app .
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-bundle
-          path: bundle.tar.gz
-          retention-days: 1
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: app-bundle
-
       - name: Fetch list of branches
         id: get-branches
         run: |
@@ -62,7 +36,6 @@ jobs:
             echo "Error: Gagal mengambil data branches dari API."
             exit 1
           fi
-          # Ubah format JSON array ke format baris string dipisah spasi
           branches=$(echo "${json}" | jq -r '.data | join(" ")')
           echo "branches=$branches" >> $GITHUB_OUTPUT
 
@@ -84,7 +57,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
           BRANCH_LIST: ${{ steps.get-branches.outputs.branches }}
         run: |
-          # 1. Upload 1 file arsip ke server
+          # 1. Upload file arsip ke server
           scp -P "$SSH_PORT" -i ~/.ssh/id_rsa bundle.tar.gz "$SSH_USER@$SSH_HOST:/tmp/bundle.tar.gz"
 
           # 2. Eksekusi ekstraksi dan distribusi lokal di VPS
@@ -102,7 +75,6 @@ jobs:
             for folder in \$BRANCHES; do
               TARGET_DIR="/var/www/clenicapp.com/\${folder}.clenicapp.com/v1"
               mkdir -p "\$TARGET_DIR"
-              # Sync lokal disk-to-disk (sangat cepat & hemat resource)
               rsync -a --delete /tmp/app_release/ "\$TARGET_DIR/"
               echo "✓ Berhasil deploy: \${folder}.clenicapp.com"
             done
