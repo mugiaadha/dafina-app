@@ -10,7 +10,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Ambil list branches dari API & generate matrix
+      - name: Ambil lists branches dari API & generate matrix
         id: set-matrix
         run: |
           echo "Fetching branches…"
