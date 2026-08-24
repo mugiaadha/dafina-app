@@ -91,7 +91,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
-          TARGET_DIR: "/varr/www/clenicapp.com/${{ matrix.folder }}.clenicapp.com/v1/"
+          TARGET_DIR: "/var/www/clenicapp.com/${{ matrix.folder }}.clenicapp.com/v1/"
         run: |
           # Buat direktori remote jika belum ada
           ssh -p "$SSH_PORT" -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "mkdir -p $TARGET_DIR"
