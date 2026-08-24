@@ -100,7 +100,7 @@ jobs:
 
             echo "Mendistribusikan file ke seluruh subdomain..."
             for folder in \$BRANCHES; do
-              TARGET_DIR="/home/clenicapp.com/apps/\${folder}.clenicapp.com/v1"
+              TARGET_DIR="/var/www/clenicapp.com/\${folder}.clenicapp.com/v1"
               mkdir -p "\$TARGET_DIR"
               # Sync lokal disk-to-disk (sangat cepat & hemat resource)
               rsync -a --delete /tmp/app_release/ "\$TARGET_DIR/"
