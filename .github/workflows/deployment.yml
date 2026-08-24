@@ -86,18 +86,20 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
-      - name: Rsync Delta Deploy to ${{ matrix.folder }} via SSH
+      - name: Deploy to ${{ matrix.folder }} via Rsync
         env:
-          SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
-          TARGET_DIR: "/var/www/clenicapp.com/${{ matrix.folder }}.clenicapp.com/v1/"
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: "22"
+          TARGET_DIR: "/home/clenicapp.com/apps/${{ matrix.folder }}.clenicapp.com/v1/"
         run: |
-          # Buat direktori remote jika belum ada
-          ssh -p "$SSH_PORT" -i ~/.ssh/id_rsa "$SSH_USER@$SSH_HOST" "mkdir -p $TARGET_DIR"
-
-          # Sync file menggunakan rsync (delta transfer bawaan)
           rsync -avz --no-times \
-            -e "ssh -p $SSH_PORT -i ~/.ssh/id_rsa" \
+            --rsync-path="mkdir -p $TARGET_DIR && rsync" \
+            -e "ssh -p $SSH_PORT -i ~/.ssh/id_rsa \
+                -o StrictHostKeyChecking=accept-new \
+                -o ConnectTimeout=120 \
+                -o ConnectionAttempts=5 \
+                -o ServerAliveInterval=15 \
+                -o ServerAliveCountMax=6" \
             ./dist/puskesmas-app/ \
             "$SSH_USER@$SSH_HOST:$TARGET_DIR"
