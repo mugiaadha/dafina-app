@@ -1,6 +1,11 @@
 name: Build & Deploy workflow
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: false
+        default: "puskesmas"
   push:
     branches:
       - main
